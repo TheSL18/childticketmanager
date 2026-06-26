@@ -24,11 +24,17 @@ jobs:
 
       - name: Verificar la firma GPG del tag (gate de procedencia)
         run: |
+          set -e
           TAG="${GITHUB_REF_NAME}"
           gpg --import .github/signing-pubkey.asc
-          # El tag debe ser un objeto anotado/firmado, no lightweight
-          if [ "$(git cat-file -t "$TAG")" != "tag" ]; then
-            echo "::error::'$TAG' no es un tag anotado/firmado (git tag -s)."; exit 1
+          # El checkout puede dejar el ref "pelado" al commit; traemos el OBJETO real
+          git fetch --force origin "refs/tags/${TAG}:refs/tags/${TAG}"
+          OBJTYPE="$(git cat-file -t "$TAG")"
+          echo "Objeto de '$TAG' => $OBJTYPE"
+          echo "--- ls-remote ---"; git ls-remote origin "refs/tags/${TAG}"
+          if [ "$OBJTYPE" != "tag" ]; then
+            echo "::error::'$TAG' no es un tag anotado/firmado. Recréalo: git tag -s $TAG"
+            exit 1
           fi
           # Falla el job si la firma no es válida o la clave no coincide
           git tag -v "$TAG"
