@@ -1,0 +1,73 @@
+name: Release plugin
+
+# RUTA B (hardware-pura): la procedencia es el TAG FIRMADO con la YubiKey.
+# CI NO posee ninguna clave privada. Importa solo la clave PÚBLICA del repo,
+# verifica la firma del tag y, únicamente si es válida, empaqueta y publica.
+# Un tag sin firmar (o con firma inválida) NO genera release.
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write          # necesario para crear el Release
+
+jobs:
+  build-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (historial + tags para verificar la firma)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verificar la firma GPG del tag (gate de procedencia)
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          gpg --import .github/signing-pubkey.asc
+          # El tag debe ser un objeto anotado/firmado, no lightweight
+          if [ "$(git cat-file -t "$TAG")" != "tag" ]; then
+            echo "::error::'$TAG' no es un tag anotado/firmado (git tag -s)."; exit 1
+          fi
+          # Falla el job si la firma no es válida o la clave no coincide
+          git tag -v "$TAG"
+          echo "✅ Firma del tag verificada contra la clave pública del repo."
+
+      - name: Determinar versión y comprobar coherencia con setup.php
+        id: ver
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          VERSION="${TAG#v}"
+          echo "tag=$TAG"         >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          DECL=$(grep -oP "PLUGIN_CHILDTICKETMANAGER_VERSION', '\K[^']+" setup.php || true)
+          echo "setup.php declara: '$DECL' | tag: '$VERSION'"
+          if [ -n "$DECL" ] && [ "$DECL" != "$VERSION" ]; then
+            echo "::error::La versión del tag ($VERSION) no coincide con setup.php ($DECL)"; exit 1
+          fi
+
+      - name: Construir paquetes (.tar.bz2 + .zip) + checksums
+        id: build
+        run: |
+          V="${{ steps.ver.outputs.version }}"
+          PKG="childticketmanager-${V}.tar.bz2"
+          ZIP="childticketmanager-${V}.zip"
+          # git archive respeta export-ignore de .gitattributes (excluye CI/dev)
+          git archive --prefix=childticketmanager/ HEAD | bzip2 -9 > "$PKG"
+          git archive --format=zip --prefix=childticketmanager/ HEAD -o "$ZIP"
+          sha256sum "$PKG" "$ZIP" > SHA256SUMS
+          echo "pkg=$PKG" >> "$GITHUB_OUTPUT"
+          echo "zip=$ZIP" >> "$GITHUB_OUTPUT"
+          echo "--- Contenido del tar ---"; tar tjf "$PKG" | head
+
+      - name: Publicar Release (procedencia = tag firmado)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ steps.ver.outputs.tag }}" \
+            --title "${{ steps.ver.outputs.tag }}" \
+            --generate-notes \
+            "${{ steps.build.outputs.pkg }}" \
+            "${{ steps.build.outputs.zip }}" \
+            "SHA256SUMS"
