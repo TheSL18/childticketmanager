@@ -4,7 +4,7 @@
  *  childticketmanager plugin for GLPI
  *  Copyright (C) 2018 by the childticketmanager Development Team.
  *
- *  https://github.com/pluginsGLPI/childticketmanager
+ *  https://github.com/TheSL18/childticketmanager
  *  -------------------------------------------------------------------------
  *
  *  LICENSE
@@ -28,8 +28,6 @@
 
 $AJAX_INCLUDE = 1;
 include('../../../inc/includes.php');
-
-use Glpi\Toolbox\Sanitizer;
 
 header("Content-Type: text/html; charset=UTF-8");
 Html::header_nocache();
@@ -70,10 +68,9 @@ if (!isset($input['_actors']['requester'])) {
 // Set values
 $input['itilcategories_id'] = $category_id;
 $input['_add'] = true; // This adds the standard redirect message
-// Sanitize strings and arrays
-foreach ($input as $key => $val) {
-    $input[$key] = Sanitizer::dbEscapeRecursive([$val])[0];
-}
+// Saneamiento adaptado a la versión: en GLPI 11 los datos van en bruto;
+// en GLPI 10.0.x se escapan vía Sanitizer (ver plugin_childticketmanager_sanitize).
+$input = plugin_childticketmanager_sanitize($input);
 
 $child->add($input);
 (new Ticket_Ticket)->add([

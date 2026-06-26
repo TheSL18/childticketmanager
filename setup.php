@@ -4,7 +4,7 @@
  *  childticketmanager plugin for GLPI
  *  Copyright (C) 2018 by the childticketmanager Development Team.
  *
- *  https://github.com/pluginsGLPI/childticketmanager
+ *  https://github.com/TheSL18/childticketmanager
  *  -------------------------------------------------------------------------
  *
  *  LICENSE
@@ -28,13 +28,15 @@
 
 use Glpi\Plugin\Hooks;
 
-define('PLUGIN_CHILDTICKETMANAGER_VERSION', '3.0.2');
+define('PLUGIN_CHILDTICKETMANAGER_VERSION', '3.1.0');
 
 // Minimal GLPI version, inclusive
 define("PLUGIN_CHILDTICKETMANAGER_MIN_GLPI_VERSION", "10.0");
 
 // Maximum GLPI version, exclusive
-define("PLUGIN_CHILDTICKETMANAGER_MAX_GLPI_VERSION", "10.1");
+// 12.0 cubre toda la rama 10.0.x y 11.x. No se declara compatibilidad con un
+// GLPI 12 inexistente/no probado: ampliar solo tras validar contra esa rama.
+define("PLUGIN_CHILDTICKETMANAGER_MAX_GLPI_VERSION", "12.0");
 
 
 /**
@@ -74,7 +76,7 @@ function plugin_version_childticketmanager() {
    return [
       'name'           => __('Child Tickets Manager', 'childticketmanager'),
       'version'        => PLUGIN_CHILDTICKETMANAGER_VERSION,
-      'author'         => '<a href="http://www.synairgis.com">Synairgis</a>',
+      'author'         => '<a href="https://mrhacker.com.co">MrHacker</a> para <a href="https://eycingenieros.com.co">EyC Ingenieros</a>',
       'license'        => '<a href="../plugins/childticketmanager/LICENSE" target="_blank">GPLv3</a>',
       'homepage'       => '',
       'requirements'   => [

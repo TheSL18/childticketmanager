@@ -4,7 +4,7 @@
  *  childticketmanager plugin for GLPI
  *  Copyright (C) 2018 by the childticketmanager Development Team.
  *
- *  https://github.com/pluginsGLPI/childticketmanager
+ *  https://github.com/TheSL18/childticketmanager
  *  -------------------------------------------------------------------------
  *
  *  LICENSE

@@ -3,7 +3,7 @@
    <name>Child Ticket Manager</name>
    <key>childticketmanager</key>
    <state>stable</state>
-   <logo>https://raw.githubusercontent.com/Synairgis/childticketmanager/master/logo.png</logo>
+   <logo>https://raw.githubusercontent.com/TheSL18/childticketmanager/master/logo.png</logo>
    <description>
       <short>
          <en><![CDATA[This plugin is meant to ease the management of parent-child tickets in GLPI. It adds an option to the standard linked ticket GLPI feature which can generate a new child ticket directly from the current one.]]></en>
@@ -46,15 +46,22 @@ Une fois installé, vous pouvez configurer le plugin afin qu'il :
          </fr>
       </long>
    </description>
-   <homepage>https://github.com/Synairgis/childticketmanager</homepage>
-   <download>https://github.com/Synairgis/childticketmanager/releases</download>
-   <issues>https://github.com/Synairgis/childticketmanager/issues</issues>
-   <readme>https://github.com/Synairgis/childticketmanager/blob/master/README.md</readme>
+   <homepage>https://github.com/TheSL18/childticketmanager</homepage>
+   <download>https://github.com/TheSL18/childticketmanager/releases</download>
+   <issues>https://github.com/TheSL18/childticketmanager/issues</issues>
+   <readme>https://github.com/TheSL18/childticketmanager/blob/master/README.md</readme>
    <authors>
+      <author>MrHacker (EyC Ingenieros)</author>
       <author>Synairgis</author>
       <author>TECLIB'</author>
    </authors>
    <versions>
+      <version>
+         <num>3.1.0</num>
+         <compatibility>11.0.X</compatibility>
+         <compatibility>10.0.X</compatibility>
+         <download_url>https://github.com/TheSL18/childticketmanager/releases/download/v3.1.0/childticketmanager-3.1.0.tar.bz2</download_url>
+      </version>
       <version>
          <num>3.0.2</num>
          <compatibility>10.0.X</compatibility>
@@ -97,7 +104,7 @@ Une fois installé, vous pouvez configurer le plugin afin qu'il :
       </fr>
    </tags>
    <screenshots>
-      <screenshot>https://raw.githubusercontent.com/Synairgis/childticketmanager/master/screenshot1.png</screenshot>
-      <screenshot>https://raw.githubusercontent.com/Synairgis/childticketmanager/master/screenshot2.png</screenshot>
+      <screenshot>https://raw.githubusercontent.com/TheSL18/childticketmanager/master/screenshot1.png</screenshot>
+      <screenshot>https://raw.githubusercontent.com/TheSL18/childticketmanager/master/screenshot2.png</screenshot>
    </screenshots>
 </root>

@@ -1,4 +1,30 @@
 {
+    "name": "thesl18/childticketmanager",
+    "description": "GLPI plugin to manage parent-child tickets with cascade resolution/closure. GLPI 10 & 11 compatible fork.",
+    "type": "glpi-plugin",
+    "license": "GPL-3.0-or-later",
+    "homepage": "https://github.com/TheSL18/childticketmanager",
+    "authors": [
+        {
+            "name": "MrHacker",
+            "homepage": "https://mrhacker.com.co",
+            "role": "Maintainer (fork)"
+        },
+        {
+            "name": "EyC Ingenieros",
+            "homepage": "https://eycingenieros.com.co",
+            "role": "Sponsor"
+        },
+        {
+            "name": "Synairgis",
+            "homepage": "https://www.synairgis.com",
+            "role": "Original author"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/TheSL18/childticketmanager/issues",
+        "source": "https://github.com/TheSL18/childticketmanager"
+    },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require-dev": {

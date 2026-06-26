@@ -1,3 +1,11 @@
+## 3.1.0
+
+### Features
+
+- GLPI 11.0 compatibility while keeping GLPI 10.0.x support (max GLPI version raised to < 12.0).
+- Input sanitization now adapts to the running GLPI version: raw values on GLPI >= 11 (auto-sanitization was removed), legacy `Glpi\Toolbox\Sanitizer` on GLPI 10.0.x.
+- Modernized the `Ticket_Ticket` lookup to the single-array `$DB->request()` syntax (the table+criteria form is deprecated in GLPI 11).
+
 ## 3.0.2
 
 ### Bugfix
